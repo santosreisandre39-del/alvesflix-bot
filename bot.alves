@@ -1,0 +1,24 @@
+import os
+from telegram import Update
+from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler
+
+# Função que responde ao comando /start
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        "Olá! Bem-vindo ao AlvesFlix. Escolha sua minissérie favorita abaixo:"
+    )
+
+if __name__ == "__main__":
+    # Pega o token do bot configurado nas variáveis de ambiente do Render
+    TOKEN = os.getenv("TOKEN")
+    
+    if not TOKEN:
+        print("Erro: O token do bot não foi configurado.")
+    else:
+        app = ApplicationBuilder().token(TOKEN).build()
+        
+        # Adiciona o comando /start
+        app.add_handler(CommandHandler("start", start))
+        
+        print("Bot iniciado com sucesso!")
+        app.run_polling()
